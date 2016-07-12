@@ -1,0 +1,17 @@
+snippet tvhost "a vhost declaration for an svn trunk" b
+<VirtualHost *:80>
+	DocumentRoot /home/${1:DEV}/sites/$1/tsi
+	ServerName $1.trojmiasto.pl
+	ErrorLog /var/log/apache2/$1.log
+	SetEnv vhost_mode developer
+</VirtualHost>
+endsnippet
+
+snippet bvhost "a vhost declaration for an svn branch" b
+<VirtualHost *:80>
+	DocumentRoot /home/${1:DEV}/sites/${2:BRANCH}/tsi
+	ServerName $2.$1.trojmiasto.pl
+	ErrorLog /var/log/apache2/$1.log
+	SetEnv vhost_mode developer
+</VirtualHost>
+endsnippet

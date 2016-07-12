@@ -1,0 +1,161 @@
+extends ansible
+
+snippet item "jinja item"
+"{{ item }}"
+endsnippet
+
+snippet qvar "Quote as Ansible variable"
+"{{ ${VISUAL} }}"
+endsnippet
+
+snippet var "Ansible variable"
+{{ ${VISUAL} }}
+endsnippet
+
+snippet restart "restart service handler" b
+- name: restart ${1:SERVICE_NAME}
+	service:
+		name:  $1
+		state: restarted
+endsnippet
+
+snippet reload "reload service handler" b
+- name: reload ${1:SERVICE_NAME}
+	service:
+		name:  $1
+		state: reloaded
+endsnippet
+
+snippet service "ansible simple service definition" b
+- name: ensure ${1:SERVICE_NAME} is enabled and running
+	service:
+		name: $1
+		state: started
+		enabled: yes
+endsnippet
+
+snippet dir "ansible directory task" b
+- name: ensure ${1:DIR_DESCRIPTION} exists
+	file:
+		path: ${2:PATH}
+		owner: ${3:root}
+		group: ${4:root}
+		mode: '${5:0755}'
+		state: directory
+endsnippet
+
+snippet diritems "ansible directory task for multiple dirs" b
+- name: ensure ${1:DIRS_DESCRIPTION} exist
+	file:
+		path: "\{\{ item.path \}\}"
+		owner: ${2:"\{\{ item.owner|default('root') \}\}"}
+		group: ${3:"\{\{ item.group|default('root') \}\}"}
+		mode: ${4:"\{\{ item.mode|default('0755') \}\}"}
+		state: directory
+	with_items:
+		- ${5:XXX}
+endsnippet
+
+snippet link "ansible symlink task" b
+- name: ensure a symlink to ${1:TARGET_DESCRIPTION} exists
+	file:
+		path: ${2:SYMLINK_PATH}
+		src: ${3:TARGET_PATH}
+		owner: ${4:root}
+		group: ${5:root}
+		state: link
+endsnippet
+
+snippet template "ansible template task" b
+- name: render ${1:TEMPLATE_DESCRIPTION}
+	template:
+		dest: /${2:PATH}
+		src: ${3:$2}
+		owner: ${4:root}
+		group: ${5:root}
+		mode: '${6:0644}'
+endsnippet
+
+snippet copy "ansible copy task" b
+- name: provide ${1:COPIED_FILE_DESCRIPTION}
+	copy:
+		dest: /${2:PATH}
+		src: ${3:$2}
+		owner: ${4:root}
+		group: ${5:root}
+		mode: '${6:0644}'
+endsnippet
+
+snippet aptkey "ansible apt key task (keyserver)" b
+- name: add ${1:package} repository key
+	apt_key:
+		keyserver: '${2:keyserver.ubuntu.com}'
+		id: '${3:KEY_ID}'
+		state: present
+endsnippet
+
+snippet aptkey "ansible apt key task (url)" b
+- name: add ${1:package} repository key
+	apt_key:
+		url: '${2:URL}'
+		state: present
+endsnippet
+
+snippet aptrepo "ansible apt repo task" b
+- name: add ${1:package} repository
+	apt_repository:
+		repo: '${2:REPO_STRING}'
+		update_cache: yes
+		state: present
+endsnippet
+
+snippet ppa "ansible ppa (key + repo) tasks" bm
+- name: add ${1:PACKAGE} repository key
+	apt_key:
+		keyserver: '${2:keyserver.ubuntu.com}'
+		id: '${3:KEY_ID}'
+		state: present
+
+- name: add $1 repository
+	apt_repository:
+		repo: 'ppa:${4:PPA_STRING}'
+		update_cache: yes
+		state: present
+endsnippet
+
+snippet inittype "ansible check init type and set fact" bm
+- name: check init type
+	command: ps -p 1 -o comm=
+	register: init_type
+	changed_when: false
+	always_run: yes
+
+- name: set init type fact
+	set_fact:
+		init_type: "{{ init_type.stdout }}"
+endsnippet
+
+snippet aptitems "ansible apt task with multiple packages" b
+- name: ensure $1 packages are installed
+	apt:
+		name: "{{ item }}"
+		state: present
+	with_items:
+		- ${2:ITEM}
+endsnippet
+
+snippet aptpackage "ansible apt task with single package" b
+- name: ensure $1 is installed
+	apt:
+		name: ${2:PACKAGE_NAME}
+		state: present
+endsnippet
+
+snippet play "ansible play header" b
+---
+- name: ${1:''}
+	hosts: ${2:all}
+	remote_user: ${3:ansible}
+	roles:
+		- ${4:default}
+endsnippet
