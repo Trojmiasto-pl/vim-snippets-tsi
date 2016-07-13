@@ -136,7 +136,7 @@ snippet inittype "ansible check init type and set fact" bm
 endsnippet
 
 snippet aptitems "ansible apt task with multiple packages" b
-- name: ensure $1 packages are installed
+- name: ensure ${1:PACKAGES_DESCRIPTION} packages are installed
 	apt:
 		name: "{{ item }}"
 		state: present
@@ -145,7 +145,7 @@ snippet aptitems "ansible apt task with multiple packages" b
 endsnippet
 
 snippet aptpackage "ansible apt task with single package" b
-- name: ensure $1 is installed
+- name: ensure ${1:PACKAGE_DESCRIPTION} is installed
 	apt:
 		name: ${2:PACKAGE_NAME}
 		state: present
