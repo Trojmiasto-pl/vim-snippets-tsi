@@ -92,6 +92,7 @@ snippet aptkey "ansible apt key task (keyserver)" b
 		keyserver: '${2:keyserver.ubuntu.com}'
 		id: '${3:KEY_ID}'
 		state: present
+	when: not ansible_check_mode
 endsnippet
 
 snippet aptkey "ansible apt key task (url)" b
@@ -99,6 +100,7 @@ snippet aptkey "ansible apt key task (url)" b
 	apt_key:
 		url: '${2:URL}'
 		state: present
+	when: not ansible_check_mode
 endsnippet
 
 snippet aptrepo "ansible apt repo task" b
