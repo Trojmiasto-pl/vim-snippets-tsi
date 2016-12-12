@@ -27,3 +27,21 @@ endsnippet
 snippet "(\w+)\.dqt" "Double quotes" r
 "`!p snip.rv = match.group(1)`$1"$0
 endsnippet
+
+snippet jif "Jinja if block"
+{% if ${1:condition} %}
+${2:{# contents #}}
+{% endif %}
+endsnippet
+
+snippet jcomment "Jinja - comment block out" b
+{#
+${VISUAL}
+#}
+endsnippet
+
+snippet jfor "Jinja for loop"
+{% for ${1:VAR} in ${2:COLLECTION} %}
+${3:{# contents #}}
+{% endfor %}
+endsnippet
