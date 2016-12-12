@@ -161,3 +161,21 @@ snippet play "ansible play header" b
 	roles:
 		- ${4:default}
 endsnippet
+
+snippet items "with_items" b
+with_items:
+	- 
+endsnippet
+
+snippet notify "notify" b
+notify:
+	- 
+endsnippet
+
+snippet tags "tags" b
+tags: ['$1']
+endsnippet
+
+snippet ignorecheck "ignore errors in check mode" b
+ignore_errors: "{{ ansible_check_mode }}"
+endsnippet
