@@ -12,6 +12,11 @@ snippet var "Ansible variable"
 {{ ${VISUAL} }}
 endsnippet
 
+snippet command "executes a command on a remote node" b
+- name: run command ${1:SERVICE_NAME}
+	command: $1
+endsnippet
+
 snippet restart "restart service handler" b
 - name: restart ${1:SERVICE_NAME}
 	service:
