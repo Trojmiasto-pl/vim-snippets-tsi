@@ -169,12 +169,12 @@ endsnippet
 
 snippet items "with_items" b
 with_items:
-	- 
+	-
 endsnippet
 
 snippet notify "notify" b
 notify:
-	- 
+	-
 endsnippet
 
 snippet tags "tags" b
@@ -183,4 +183,12 @@ endsnippet
 
 snippet ignorecheck "ignore errors in check mode" b
 ignore_errors: "{{ ansible_check_mode }}"
+endsnippet
+
+snippet adddevel "add developer to vars" b
+- name: '${1:Developer_name}'
+	comment: '${2:Developer full name}'
+	password: '${3:`text=$(openssl rand -base64 16 | colrm 12); mkpasswd -m sha-512 $text | tr -d '\n'; echo "\' #$text"`}
+	svn_password: '`openssl rand -base64 16 | colrm 12`'
+	smb_password: '`openssl rand -base64 16 | colrm 12`'
 endsnippet
