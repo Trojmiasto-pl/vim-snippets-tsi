@@ -135,7 +135,7 @@ snippet inittype "ansible check init type and set fact" bm
 	command: ps -p 1 -o comm=
 	register: init_type
 	changed_when: false
-	always_run: yes
+	check_mode: no
 
 - name: set init type fact
 	set_fact:
