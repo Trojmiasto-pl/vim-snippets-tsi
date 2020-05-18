@@ -1,3 +1,25 @@
+snippet gitlabci "basic gitlabci dind file" b
+image: docker:${1:18.09.7}
+
+variables:
+	CI_REGISTRY_IMAGE: "trojmiasto/${2:`basename $(pwd)`}"
+
+services:
+	- name: docker:$1-dind
+
+before_script:
+	- docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+
+build:
+	stage: build
+	script:
+		- docker build --pull -t "$CI_REGISTRY_IMAGE:latest" .
+		- docker push "$CI_REGISTRY_IMAGE:latest"
+	tags:
+		- docker
+		- wicher
+endsnippet
+
 snippet dep "Deployment" b
 apiVersion: extensions/v1beta1
 kind: Deployment
